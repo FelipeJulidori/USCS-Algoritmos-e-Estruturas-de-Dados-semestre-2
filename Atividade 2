@@ -1,0 +1,233 @@
+////////////////////////////////////////////////////////////////////////////////Questao 1////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+#include <stdbool.h>
+
+// Função para verificar se um número é primo
+bool primo(int num) {
+    if (num <= 1) return false; // Números menores ou iguais a 1 não são primos
+    for (int i = 2; i * i <= num; i++) { // Verifica até a raiz quadrada do número
+        if (num % i == 0) {
+            return false; // Se o número for divisível por i, não é primo
+        }
+    }
+    return true; // Se não for divisível por nenhum número, é primo
+}
+
+// Função para calcular a soma dos primeiros N números primos
+int somaPrimos(int N) {
+    int soma = 0;
+    int count = 0; // Contador de números primos encontrados
+    int num = 2; // Começa a verificação a partir do número 2
+
+    while (count < N) {
+        if (primo(num)) { // Se o número for primo
+            soma += num;  // Adiciona à soma
+            count++;      // Incrementa o contador de números primos encontrados
+        }
+        num++; // Verifica o próximo número
+    }
+
+    return soma; // Retorna a soma dos primeiros N números primos
+}
+
+int main() {
+    int N;
+
+    // Solicita ao usuário o valor de N
+    printf("Digite o número N de primos para somar: ");
+    scanf("%d", &N);
+
+    // Calcula e exibe a soma dos primeiros N números primos
+    int resultado = somaPrimos(N);
+    printf("A soma dos primeiros %d números primos é: %d\n", N, resultado);
+
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////Questao 2////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+// Função para calcular a média de uma turma
+float mediaTurma(int numAlunos) {
+    float somaNotas = 0.0;
+    float nota;
+
+    // Solicita as notas de todos os alunos da turma
+    for (int i = 1; i <= numAlunos; i++) {
+        printf("Digite a nota do aluno %d: ", i);
+        scanf("%f", &nota);
+        somaNotas += nota;
+    }
+
+    // Calcula a média da turma
+    return somaNotas / numAlunos;
+}
+
+// Função para calcular a média geral da escola
+float mediaEscola(int numTurmas) {
+    int numAlunos;
+    float somaDasMedias = 0.0;
+
+    // Calcula a soma das médias das turmas
+    for (int i = 1; i <= numTurmas; i++) {
+        printf("\nDigite o número de alunos da turma %d: ", i);
+        scanf("%d", &numAlunos);
+        
+        // Chama a função mediaTurma para calcular a média de cada turma
+        float media = mediaTurma(numAlunos);
+        printf("Média da turma %d: %.2f\n", i, media);
+        
+        // Soma a média da turma à soma das médias
+        somaDasMedias += media;
+    }
+
+    // Calcula a média geral da escola
+    return somaDasMedias / numTurmas;
+}
+
+int main() {
+    int numTurmas;
+
+    // Solicita o número de turmas
+    printf("Digite o número de turmas: ");
+    scanf("%d", &numTurmas);
+
+    // Chama a função mediaEscola para calcular a média geral da escola
+    float mediaGeral = mediaEscola(numTurmas);
+    printf("\nMédia geral da escola: %.2f\n", mediaGeral);
+
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////Questao 3////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+int Fibonacci(int n);
+
+int main(){
+    int n;
+    printf("Digite o valor de Fibonacci\n");
+    scanf("%d",&n);
+    int resultado = Fibonacci(n);
+    printf("Seu numero de Fibonacci é = %d",resultado);
+    return 0;
+}
+
+int Fibonacci(int n){
+    if (n==0)
+     return 0;
+    if (n==1)
+     return 1;
+     return Fibonacci(n-1) + Fibonacci(n-2);
+}
+
+////////////////////////////////////////////////////////////////////////////////Questao 4////////////////////////////////////////////////////////////////////////////////
+
+int Somatorio(int n);
+
+#include <stdio.h>
+
+int main(){
+    int n;
+    printf("Digite o numero para a somatoria\n");
+    scanf("%d",&n);
+
+    printf("Somatoria:%d",Somatorio(n));
+    return 0;
+}
+
+int Somatorio(int n){
+    int resultado=0;
+    for(int i=1;i<=n;i++){
+        resultado+=5*i*i+2*i+8;
+    }
+    return resultado;
+}
+
+////////////////////////////////////////////////////////////////////////////////Questao 5////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+int Soma(int x, int y);
+
+int main(){
+    int x,y;
+    printf("Quais numeros voce quer somar?\n");
+    scanf("%d %d", &x, &y);
+    int resultado = Soma(x , y);
+    printf("A soma de %d e de %d e igual a %d", x, y, resultado);
+
+}
+
+int Soma(int x, int y){
+return x+y;
+}
+
+////////////////////////////////////////////////////////////////////////////////Questao 6////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+int Maior(int x, int y);
+
+int main(){
+    int x , y;
+    printf("Vamos ver qual e o maior! coloque seu numero");
+    scanf("%d %d", &x, &y);
+    int maior = Maior(x,y);
+    printf("Seu maior numero e %d", maior);
+    return 0;
+}
+
+int Maior(int x, int y){
+    if(x>y){
+       return x;
+    }
+    else{
+        return y;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////Questao 7////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+
+// Protótipo da função que calcula a soma dos valores do vetor
+int somaVetor(int vetor[], int tamanho);
+
+int main() {
+    int vetor[3];  // Vetor para armazenar 3 números inteiros
+    int soma;
+
+    // Solicita os três números inteiros ao usuário
+    printf("Digite o primeiro número: ");
+    scanf("%d", &vetor[0]);
+
+    printf("Digite o segundo número: ");
+    scanf("%d", &vetor[1]);
+
+    printf("Digite o terceiro número: ");
+    scanf("%d", &vetor[2]);
+
+    // Chama a função para calcular a soma
+    soma = somaVetor(vetor, 3);
+
+    // Exibe o resultado da soma
+    printf("A soma dos valores do vetor é: %d\n", soma);
+
+    return 0;
+}
+
+// Função para calcular a soma dos valores do vetor
+int somaVetor(int vetor[], int tamanho) {
+    int soma = 0;
+    
+    // Soma os elementos do vetor
+    for (int i = 0; i < tamanho; i++) {
+        soma += vetor[i];
+    }
+    
+    return soma;
+}
