@@ -1,0 +1,171 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_FUNCIONARIOS 100
+
+typedef struct {
+    int id;
+    char nome[100];
+    char email[100];
+    char funcao[20];
+} Funcionario;
+
+Funcionario funcionarios[MAX_FUNCIONARIOS];
+int totalFuncionarios = 0;
+
+void adicionarFuncionario() {
+    if (totalFuncionarios >= MAX_FUNCIONARIOS) {
+        printf("Erro: Limite máximo de funcionários atingido.\n");
+        return;
+    }
+
+    Funcionario novoFuncionario;
+    novoFuncionario.id = totalFuncionarios + 1;
+
+    printf("Digite o nome do funcionário: ");
+    getchar();
+    fgets(novoFuncionario.nome, 100, stdin);
+    novoFuncionario.nome[strcspn(novoFuncionario.nome, "\n")] = '\0';
+
+    printf("Digite o email do funcionário: ");
+    fgets(novoFuncionario.email, 100, stdin);
+    novoFuncionario.email[strcspn(novoFuncionario.email, "\n")] = '\0';
+
+    printf("Selecione a função (1-Gerente, 2-Atendente, 3-Cozinheiro, 4-Entregador): ");
+    int escolhaFuncao;
+    scanf("%d", &escolhaFuncao);
+    switch (escolhaFuncao) {
+        case 1:
+            strcpy(novoFuncionario.funcao, "Gerente");
+            break;
+        case 2:
+            strcpy(novoFuncionario.funcao, "Atendente");
+            break;
+        case 3:
+            strcpy(novoFuncionario.funcao, "Cozinheiro");
+            break;
+        case 4:
+            strcpy(novoFuncionario.funcao, "Entregador");
+            break;
+        default:
+            printf("Opção inválida. Funcionário não adicionado.\n");
+            return;
+    }
+
+    funcionarios[totalFuncionarios++] = novoFuncionario;
+    printf("Funcionário adicionado com sucesso!\n");
+}
+
+void listarFuncionarios() {
+    printf("\nLista de Funcionários:\n");
+    for (int i = 0; i < totalFuncionarios; i++) {
+        printf("ID: %d, Nome: %s, Email: %s, Função: %s\n",
+               funcionarios[i].id, funcionarios[i].nome,
+               funcionarios[i].email, funcionarios[i].funcao);
+    }
+}
+
+void editarFuncionario() {
+    int id;
+    printf("Digite o ID do funcionário que deseja editar: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < totalFuncionarios; i++) {
+        if (funcionarios[i].id == id) {
+            printf("Editando funcionário ID %d:\n", id);
+
+            printf("Digite o novo nome (ou pressione Enter para manter o atual): ");
+            getchar();
+            char nome[100];
+            fgets(nome, 100, stdin);
+            if (strcmp(nome, "\n") != 0) {
+                nome[strcspn(nome, "\n")] = '\0';
+                strcpy(funcionarios[i].nome, nome);
+            }
+
+            printf("Digite o novo email (ou pressione Enter para manter o atual): ");
+            char email[100];
+            fgets(email, 100, stdin);
+            if (strcmp(email, "\n") != 0) {
+                email[strcspn(email, "\n")] = '\0';
+                strcpy(funcionarios[i].email, email);
+            }
+
+            printf("Selecione a nova função (1-Gerente, 2-Atendente, 3-Cozinheiro, 4-Entregador, 0-Manter atual): ");
+            int escolhaFuncao;
+            scanf("%d", &escolhaFuncao);
+            if (escolhaFuncao != 0) {
+                switch (escolhaFuncao) {
+                    case 1:
+                        strcpy(funcionarios[i].funcao, "Gerente");
+                        break;
+                    case 2:
+                        strcpy(funcionarios[i].funcao, "Atendente");
+                        break;
+                    case 3:
+                        strcpy(funcionarios[i].funcao, "Cozinheiro");
+                        break;
+                    case 4:
+                        strcpy(funcionarios[i].funcao, "Entregador");
+                        break;
+                    default:
+                        printf("Opção inválida. Mantendo a função atual.\n");
+                }
+            }
+
+            printf("Funcionário atualizado com sucesso!\n");
+            return;
+        }
+    }
+
+    printf("Funcionário com ID %d não encontrado.\n", id);
+}
+
+void excluirFuncionario() {
+    int id;
+    printf("Digite o ID do funcionário que deseja excluir: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < totalFuncionarios; i++) {
+        if (funcionarios[i].id == id) {
+            for (int j = i; j < totalFuncionarios - 1; j++) {
+                funcionarios[j] = funcionarios[j + 1];
+            }
+            totalFuncionarios--;
+            printf("Funcionário excluído com sucesso!\n");
+            return;
+        }
+    }
+
+    printf("Funcionário com ID %d não encontrado.\n", id);
+}
+
+int main() {
+    int opcao;
+    do {
+        printf("\n1. Adicionar Funcionário\n2. Listar Funcionários\n3. Editar Funcionário\n4. Excluir Funcionário\n0. Sair\nEscolha uma opção: ");
+        scanf("%d", &opcao);
+        switch (opcao) {
+            case 1:
+                adicionarFuncionario();
+                break;
+            case 2:
+                listarFuncionarios();
+                break;
+            case 3:
+                editarFuncionario();
+                break;
+            case 4:
+                excluirFuncionario();
+                break;
+            case 0:
+                printf("Saindo...\n");
+                break;
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
+    } while (opcao != 0);
+
+    return 0;
+}
